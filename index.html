@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>BikeRadar Trutnov</title>
+<style>
+:root {
+  --bg:#0b1220;
+  --panel:#141f30;
+  --panel2:#1b293c;
+  --line:#29394e;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+  --green:#a3e635;
+  --blue:#38bdf8;
+  --red:#fb7185;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.container {
+  max-width:1050px;
+  margin:auto;
+  padding:25px 18px 55px;
+}
+header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:12px 0 25px;
+  border-bottom:1px solid var(--line);
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.logo {
+  width:46px;height:46px;
+  display:grid;place-items:center;
+  background:#263a25;
+  border-radius:14px;
+  font-size:25px;
+}
+h1 {font-size:22px;margin:0}
+.subtitle {font-size:12px;color:var(--muted);margin-top:4px}
+.live {
+  color:var(--green);
+  font-size:12px;
+  font-weight:700;
+}
+.dot {
+  display:inline-block;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:6px;
+}
+.hero {padding:30px 0 22px}
+.eyebrow {
+  color:var(--green);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+.hero h2 {
+  font-size:clamp(28px,5vw,42px);
+  margin:12px 0 8px;
+}
+.hero p {color:var(--muted);margin:0;line-height:1.6}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.card {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+}
+.metric-label {color:var(--muted);font-size:13px}
+.metric {
+  font-size:36px;
+  font-weight:800;
+  margin:12px 0 4px;
+}
+.metric-note {font-size:12px;color:var(--muted)}
+.green {color:var(--green)}
+.blue {color:var(--blue)}
+.section {margin-top:27px}
+.section-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+.section-heading h3 {font-size:19px;margin:0}
+button {
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel2);
+  color:var(--text);
+  padding:10px 14px;
+  font-size:13px;
+  cursor:pointer;
+}
+button:active {transform:scale(.97)}
+.station-list {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+}
+.station {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:19px;
+}
+.station-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+.station-name {font-weight:750;font-size:16px}
+.station-icon {font-size:22px}
+.station-total {
+  font-size:30px;
+  font-weight:800;
+  margin-bottom:15px;
+}
+.station-total small {
+  font-size:12px;
+  color:var(--muted);
+  font-weight:400;
+}
+.breakdown {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.vehicle {
+  background:var(--panel2);
+  border-radius:12px;
+  padding:12px;
+}
+.vehicle strong {display:block;font-size:23px;margin-bottom:4px}
+.vehicle span {font-size:11px;color:var(--muted)}
+.status {
+  margin-top:13px;
+  color:var(--muted);
+  font-size:11px;
+}
+.chart-card {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+}
+#chart {
+  width:100%;
+  height:190px;
+  display:block;
+  overflow:visible;
+}
+.legend {
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  font-size:12px;
+  color:var(--muted);
+}
+.legend span:before {
+  content:"";
+  display:inline-block;
+  width:9px;height:9px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:6px;
+}
+.legend .electric:before {background:var(--blue)}
+.message {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:17px;
+  color:var(--muted);
+  line-height:1.5;
+  font-size:13px;
+}
+footer {
+  margin-top:30px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+}
+@media(max-width:650px) {
+  .grid {grid-template-columns:1fr 1fr}
+  .grid .card:last-child {grid-column:1/-1}
+  .station-list {grid-template-columns:1fr}
+  .container {padding:17px 13px 40px}
+  .metric {font-size:31px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="brand">
+    <div class="logo">🚲</div>
+    <div>
+      <h1>BikeRadar</h1>
+      <div class="subtitle">TRUTNOV · NEXTBIKE</div>
+    </div>
+  </div>
+  <div class="live"><span class="dot"></span>LIVE RADAR</div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">MĚSTSKÁ CYKLODOPRAVA</div>
+  <h2>Najdi své kolo.</h2>
+  <p>Aktuální dostupnost sdílených kol v Trutnově na jednom místě.</p>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <div class="metric-label">Všechna kola</div>
+    <div class="metric" id="total">--</div>
+    <div class="metric-note">Napříč sledovanými stanicemi</div>
+  </div>
+  <div class="card">
+    <div class="metric-label">Běžná kola</div>
+    <div class="metric green" id="mechanical">--</div>
+    <div class="metric-note">Mechanická kola</div>
+  </div>
+  <div class="card">
+    <div class="metric-label">Elektrokola</div>
+    <div class="metric blue" id="electric">--</div>
+    <div class="metric-note">Elektrická kola</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <h3>📍 Přehled stanic</h3>
+    <button id="refresh">↻ Aktualizovat</button>
+  </div>
+  <div id="stations" class="station-list">
+    <div class="message">Načítám data ze stanic...</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <h3>📈 Historie dostupnosti</h3>
+  </div>
+  <div class="chart-card">
+    <div class="legend">
+      <span> Běžná kola</span>
+      <span class="electric"> Elektrokola</span>
+    </div>
+    <svg id="chart" viewBox="0 0 600 190"
+         preserveAspectRatio="none"
+         role="img" aria-label="Graf dostupnosti kol">
+      <text x="300" y="95" fill="#94a3b8"
+            text-anchor="middle" font-size="13">
+        Čekám na historická data...
+      </text>
+    </svg>
+  </div>
+</section>
+
+<section class="section">
+  <div class="message" id="updated">
+    Čekám na první aktualizaci dat.
+  </div>
+</section>
+
+<footer>
+  <strong>BIKERADAR TRUTNOV</strong><br>
+  Nezávislý přehled dostupnosti sdílených kol.<br>
+  Data jsou informativní a jejich dostupnost závisí na systému Nextbike.
+</footer>
+</div>
+
+<script>
+const DATA_URL = "./data.json";
+const REFRESH_MS = 60000;
+
+const $ = id => document.getElementById(id);
+
+function safeNumber(value) {
+  const n = Number(value);
+  return Number.isFinite(n) && n >= 0 ? Math.floor(n) : 0;
+}
+
+function formatTime(value) {
+  if (!value) return "čas neznámý";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "čas neznámý";
+  return date.toLocaleString("cs-CZ");
+}
+
+function renderStations(stations) {
+  const root = $("stations");
+  root.replaceChildren();
+
+  if (!Array.isArray(stations) || stations.length === 0) {
+    root.innerHTML =
+      '<div class="message">Zatím nejsou k dispozici žádná data stanic.</div>';
+    return;
+  }
+
+  let mechanicalTotal = 0;
+  let electricTotal = 0;
+
+  stations.forEach(station => {
+    const mechanical = safeNumber(station.mechanical);
+    const electric = safeNumber(station.electric);
+    const total = mechanical + electric;
+
+    mechanicalTotal += mechanical;
+    electricTotal += electric;
+
+    const card = document.createElement("article");
+    card.className = "station";
+
+    const top = document.createElement("div");
+    top.className = "station-top";
+
+    const name = document.createElement("div");
+    name.className = "station-name";
+    name.textContent = station.name || "Neznámá stanice";
+
+    const icon = document.createElement("div");
+    icon.className = "station-icon";
+    icon.textContent = "🚲";
+
+    top.append(name, icon);
+
+    const count = document.createElement("div");
+    count.className = "station-total";
+    count.textContent = total + " ";
+    const small = document.createElement("small");
+    small.textContent = "kol celkem";
+    count.append(small);
+
+    const breakdown = document.createElement("div");
+    breakdown.className = "breakdown";
+
+    const normal = document.createElement("div");
+    normal.className = "vehicle";
+    const normalCount = document.createElement("strong");
+    normalCount.className = "green";
+    normalCount.textContent = mechanical;
+    const normalLabel = document.createElement("span");
+    normalLabel.textContent = "Běžná kola";
+    normal.append(normalCount, normalLabel);
+
+    const ebike = document.createElement("div");
+    ebike.className = "vehicle";
+    const ebikeCount = document.createElement("strong");
+    ebikeCount.className = "blue";
+    ebikeCount.textContent = electric;
+    const ebikeLabel = document.createElement("span");
+    ebikeLabel.textContent = "Elektrokola";
+    ebike.append(ebikeCount, ebikeLabel);
+
+    breakdown.append(normal, ebike);
+
+    const status = document.createElement("div");
+    status.className = "status";
+    status.textContent = "● Data stanice načtena";
+
+    card.append(top, count, breakdown, status);
+    root.append(card);
+  });
+
+  $("mechanical").textContent = mechanicalTotal;
+  $("electric").textContent = electricTotal;
+  $("total").textContent = mechanicalTotal + electricTotal;
+}
+
+function renderChart(history) {
+  const svg = $("chart");
+
+  if (!Array.isArray(history) || history.length < 2) {
+    svg.innerHTML =
+      '<text x="300" y="95" fill="#94a3b8" text-anchor="middle" font-size="13">Historie se teprve vytváří.</text>';
+    return;
+  }
+
+  const points = history.slice(-30);
+  const totals = points.map(p => {
+    let mechanical = 0;
+    let electric = 0;
+    Object.values(p.stations || {}).forEach(s => {
+      mechanical += safeNumber(s.mechanical);
+      electric += safeNumber(s.electric);
+    });
+    return {mechanical, electric};
+  });
+
+  const max = Math.max(1, ...totals.map(p =>
+    p.mechanical + p.electric
+  ));
+
+  const x = i => 12 + i * (576 / Math.max(1, points.length - 1));
+  const y = value => 165 - value / max * 140;
+
+  function path(key) {
+    return totals.map((p, i) =>
+      (i === 0 ? "M" : "L") + x(i) + " " + y(p[key])
+    ).join(" ");
+  }
+
+  svg.innerHTML = `
+    <line x1="10" y1="25" x2="590" y2="25" stroke="#29394e"/>
+    <line x1="10" y1="95" x2="590" y2="95" stroke="#29394e"/>
+    <line x1="10" y1="165" x2="590" y2="165" stroke="#29394e"/>
+    <path d="${path("mechanical")}" fill="none"
+      stroke="#a3e635" stroke-width="3"
+      stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${path("electric")}" fill="none"
+      stroke="#38bdf8" stroke-width="3"
+      stroke-linecap="round" stroke-linejoin="round"/>
+  `;
+}
+
+async function loadData() {
+  const button = $("refresh");
+  button.disabled = true;
+  button.textContent = "Načítám...";
+
+  try {
+    const response = await fetch(DATA_URL + "?t=" + Date.now(), {
+      cache: "no-store"
+    });
+
+    if (!response.ok) throw new Error("Data nejsou dostupná");
+
+    const data = await response.json();
+
+    if (!Array.isArray(data.stations)) {
+      throw new Error("Neplatný formát dat");
+    }
+
+    renderStations(data.stations);
+    renderChart(data.history || []);
+
+    $("updated").textContent =
+      "Poslední aktualizace: " + formatTime(data.updated_at);
+
+  } catch (error) {
+    $("updated").textContent =
+      "⚠️ Data se nepodařilo načíst. Zkus aktualizaci později.";
+
+    if ($("total").textContent === "--") {
+      $("stations").innerHTML =
+        '<div class="message">Veřejný datový zdroj zatím není připojen. Data doplníme v dalším kroku.</div>';
+    }
+  } finally {
+    button.disabled = false;
+    button.textContent = "↻ Aktualizovat";
+  }
+}
+
+$("refresh").addEventListener("click", loadData);
+loadData();
+setInterval(loadData, REFRESH_MS);
+</script>
+</body>
+</html>
